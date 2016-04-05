@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSim", "DeviceSim\DeviceSim.csproj", "{330C8F56-A830-4F79-A4DE-C3205E0B1E6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegDevice", "RegDevice\RegDevice.csproj", "{8B6A101A-872A-4CC6-8E19-39784791924F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubscribeIoTHub", "SubscribeIoTHub\SubscribeIoTHub.csproj", "{42CD5043-706A-4EFB-8FE8-05E10D05CD21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{330C8F56-A830-4F79-A4DE-C3205E0B1E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{330C8F56-A830-4F79-A4DE-C3205E0B1E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{330C8F56-A830-4F79-A4DE-C3205E0B1E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{330C8F56-A830-4F79-A4DE-C3205E0B1E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B6A101A-872A-4CC6-8E19-39784791924F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B6A101A-872A-4CC6-8E19-39784791924F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B6A101A-872A-4CC6-8E19-39784791924F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B6A101A-872A-4CC6-8E19-39784791924F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

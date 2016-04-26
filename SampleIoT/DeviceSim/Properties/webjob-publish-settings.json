@@ -5,5 +5,5 @@
   "endTime": null,
   "jobRecurrenceFrequency": "Minute",
   "interval": 1,
-  "runMode": "Scheduled"
+  "runMode": "Continuous"
 }

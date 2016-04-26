@@ -15,13 +15,17 @@ namespace DeviceSim
         // AzureWebJobsDashboard and AzureWebJobsStorage
         static void Main()
         {
-            //var host = new JobHost();
+            // var host = new JobHost();
             // The following code ensures that the WebJob will be running continuously
-            //host.RunAndBlock();
+            // host.RunAndBlock();
 
             var settings = Properties.Settings.Default;
             var client = DeviceClient.Create(settings.IoTHubUrl, new DeviceAuthenticationWithRegistrySymmetricKey(settings.DeviceId, settings.AuthKey));
-            client.SendEventAsync(new Message(Encoding.UTF8.GetBytes("test!!"))).Wait();
+            while (true)
+            {
+                client.SendEventAsync(new Message(Encoding.UTF8.GetBytes("test!!"))).Wait();
+                System.Threading.Thread.Sleep(TimeSpan.FromSeconds(5));
+            }
         }
     }
 }

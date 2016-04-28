@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegDevice", "RegDevice\RegD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubscribeIoTHub", "SubscribeIoTHub\SubscribeIoTHub.csproj", "{42CD5043-706A-4EFB-8FE8-05E10D05CD21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{E11D7A69-A5A9-4F7C-AC68-E1C014625664}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42CD5043-706A-4EFB-8FE8-05E10D05CD21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E11D7A69-A5A9-4F7C-AC68-E1C014625664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E11D7A69-A5A9-4F7C-AC68-E1C014625664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E11D7A69-A5A9-4F7C-AC68-E1C014625664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E11D7A69-A5A9-4F7C-AC68-E1C014625664}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

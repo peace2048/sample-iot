@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="container">
+    <div class="thumbnail">
+        <img src="~/Content/img100.jpg" alt="Map" />
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <span>1F 西側 温度計</span>
+            <span id="sensor1-value">32</span><span>℃</span>
+        </div>
+        <div class="col-sm-12">
+            <canvas id="sensor1-canvas"></canvas>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/scripts/Chart.min.js"></script>
+    <script>
+        var c1 = new Chart(
+            document.getElementById("sensor1-canvas").getContext("2d"),
+            {
+                type: 'line',
+                data: {
+                    labels: ['aa', 'bb'],
+                    datasets: [{
+                        label: 'aaa',
+                        fill: false,
+                        data: [3,4]
+                    }]
+                },
+            });
+    </script>
+}

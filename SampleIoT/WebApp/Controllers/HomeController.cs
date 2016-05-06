@@ -11,7 +11,8 @@ namespace WebApp.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            var sensors = IoTHub.GetCurrentValues();
+            return View(sensors);
         }
     }
 }

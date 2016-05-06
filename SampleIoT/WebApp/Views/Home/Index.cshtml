@@ -9,32 +9,74 @@
     <div class="thumbnail">
         <img src="~/Content/img100.jpg" alt="Map" />
     </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <span>1F 西側 温度計</span>
-            <span id="sensor1-value">32</span><span>℃</span>
+    @foreach (var sensor in Model)
+    {
+        <div class="row">
+            <div>
+                <span>@sensor.Name</span>
+            </div>
+            <div id="sensor-value-@sensor.Id">
+                <canvas id="sensor-canvas-@sensor.Id"></canvas>
+            </div>
         </div>
-        <div class="col-sm-12">
-            <canvas id="sensor1-canvas"></canvas>
-        </div>
-    </div>
+    }
 </div>
 
 @section scripts {
+    <script src="~/scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    <script src="~/scripts/underscore.min.js"></script>
     <script src="~/scripts/Chart.min.js"></script>
     <script>
-        var c1 = new Chart(
-            document.getElementById("sensor1-canvas").getContext("2d"),
-            {
-                type: 'line',
-                data: {
-                    labels: ['aa', 'bb'],
-                    datasets: [{
-                        label: 'aaa',
-                        fill: false,
-                        data: [3,4]
-                    }]
-                },
+
+        var sensors = @Html.Raw(Json.Encode(Model));
+        sensors.forEach(function (sensor) {
+            sensor.Values.forEach(function(v) {
+                v.Time = new Date(parseInt(v.Time.replace('/Date(', '').replace(')/', ''), 10));
             });
+        });
+
+        function toLabel(v) {
+            return v.Time.toLocaleTimeString();
+        }
+        function toData(v) {
+            return v.Value;
+        }
+
+        $(function () {
+
+            var charts = [];
+            sensors.forEach(function (sensor) {
+                var ctx = document.getElementById("sensor-canvas-" + sensor.Id).getContext("2d");
+                var config = {
+                    type: 'line',
+                    data: {
+                        labels: sensor.Values.map(toLabel),
+                        datasets: [{
+                            label: '温度',
+                            fill: false,
+                            data: sensor.Values.map(toData)
+                        }]
+                    }
+                };
+                charts[sensor.Id] = new Chart(ctx, config);
+            })
+
+            var hub = $.connection.ioTHub;
+            hub.client.addValue = function (id, time, value) {
+                var sensor = _.find(sensors, function(x) {return x.Id == id;});
+                if (sensor) {
+                    sensor.Values.push({Time: new Date(time), Value: value});
+                    if (sensor.Values.length > 10) {
+                        sensor.Values.shift();
+                    }
+                    charts[id].data.labels = sensor.Values.map(toLabel);
+                    charts[id].data.datasets[0].data = sensor.Values.map(toData);
+                    charts[id].update();
+                }
+            };
+
+            $.connection.hub.start();
+        });
     </script>
 }

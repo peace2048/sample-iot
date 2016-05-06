@@ -31,5 +31,23 @@ namespace SubscribeIoTHub.Properties {
                 return ((string)(this["EventHubConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SignalRHubUrl {
+            get {
+                return ((string)(this["SignalRHubUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SignalRHubName {
+            get {
+                return ((string)(this["SignalRHubName"]));
+            }
+        }
     }
 }

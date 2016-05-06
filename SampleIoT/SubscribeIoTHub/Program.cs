@@ -1,4 +1,5 @@
-﻿using Microsoft.ServiceBus.Messaging;
+﻿using Microsoft.AspNet.SignalR.Client;
+using Microsoft.ServiceBus.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,16 @@ namespace SubscribeIoTHub
 {
     class Program
     {
+        private static IHubProxy _signalr;
+        private static object _lock = new object();
+
         static void Main(string[] args)
         {
             var settings = Properties.Settings.Default;
+            var hubConn = new HubConnection(settings.SignalRHubUrl);
+            _signalr = hubConn.CreateHubProxy(settings.SignalRHubName);
+            hubConn.Start().Wait();
+
             var hubClient = EventHubClient.CreateFromConnectionString(settings.EventHubConnectionString, "messages/events");
             var cancellationTokenSource = new System.Threading.CancellationTokenSource();
             foreach (var partitionId in hubClient.GetRuntimeInformation().PartitionIds)
@@ -33,6 +41,15 @@ namespace SubscribeIoTHub
 
                 var text = Encoding.UTF8.GetString(eventData.GetBytes());
                 Console.WriteLine($"Message received. Partition: {partitionId} Data: {text}");
+
+                var json = Newtonsoft.Json.Linq.JObject.Parse(text);
+                lock (_lock)
+                {
+                    var id = (int)json["Id"];
+                    var time = (DateTime)json["Time"];
+                    var value = (double)json["Value"];
+                    _signalr.Invoke("SendValue", id, time, value).Wait();
+                }
             }
         }
     }

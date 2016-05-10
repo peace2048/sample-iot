@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TypeDefinition;
+using System.Runtime.Serialization.Json;
 
 namespace SubscribeIoTHub
 {
@@ -33,23 +35,39 @@ namespace SubscribeIoTHub
 
         static async Task Subscribe(Microsoft.ServiceBus.Messaging.EventHubClient client, string partitionId, System.Threading.CancellationToken cancellationToken)
         {
-            var reciever = await client.GetDefaultConsumerGroup().CreateReceiverAsync(partitionId, DateTime.UtcNow);
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                var eventData = await reciever.ReceiveAsync();
-                if (eventData == null) continue;
-
-                var text = Encoding.UTF8.GetString(eventData.GetBytes());
-                Console.WriteLine($"Message received. Partition: {partitionId} Data: {text}");
-
-                var json = Newtonsoft.Json.Linq.JObject.Parse(text);
-                lock (_lock)
+                var reciever = await client.GetDefaultConsumerGroup().CreateReceiverAsync(partitionId, DateTime.UtcNow);
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    var id = (int)json["Id"];
-                    var time = (DateTime)json["Time"];
-                    var value = (double)json["Value"];
-                    _signalr.Invoke("SendValue", id, time, value).Wait();
+                    var eventData = await reciever.ReceiveAsync();
+                    if (eventData == null) continue;
+
+                    var text = Encoding.UTF8.GetString(eventData.GetBytes());
+                    Console.WriteLine($"Message received. Partition: {partitionId} Data: {text}");
+
+                    ////var json = Newtonsoft.Json.Linq.JObject.Parse(text);
+                    var json = Newtonsoft.Json.JsonConvert.DeserializeObject<upContainer>(text);
+
+                    lock (_lock)
+                    {
+                        //var id = (int)json["node_id"];
+                        //var time = (DateTime)json["Time"];
+                        //var value = (double)json["temperature"];
+                        //_signalr.Invoke("SendValue", id, time, value).Wait();
+
+                        if( json.data != null)
+                        {
+                            var id = 1;
+                            var sensor = json.data.Where(t => t.node_id == id).FirstOrDefault();
+                            _signalr.Invoke("SendValue", sensor.node_id, sensor.Time, sensor.temperature).Wait();
+                        }
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }
